@@ -3,9 +3,6 @@ public class Customer {
     protected String name;
     //TODO: lengkapi kelas berikut
     
-    public Customer() {
-    }
-    
     public Customer(String name){
         this.name = name;
     }
