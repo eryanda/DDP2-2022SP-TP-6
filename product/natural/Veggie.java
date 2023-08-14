@@ -3,7 +3,7 @@ import product.Product;
 
 public class Veggie extends Product{
     
-    private boolean isOrganic;
+    public boolean isOrganic;
 
     public Veggie(String name, int price, int stok, boolean isOrganic){
         super(name, price, stok);

@@ -1,17 +1,20 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import customer.Customer;
 import customer.GoldCustomer;
+import order.Cart;
+import order.OrderItem;
 import product.Product;
 import product.natural.Fruit;
 import product.natural.Veggie;
 import product.processed.Diary;
 
 public class ShyourBox {
-    private ArrayList<Product> products = new ArrayList<Product>();
-    private ArrayList<Customer> customers = new ArrayList<Customer>();
-    private Customer loginCustomer;
+    public ArrayList<Product> products = new ArrayList<Product>();
+    public ArrayList<Customer> customers = new ArrayList<Customer>();
+    public Customer loginCustomer;
 
     public static void main(String[] args) {
         ShyourBox app = new ShyourBox();
@@ -33,6 +36,13 @@ public class ShyourBox {
                     System.out.println("Masukkan nama pengguna:");
                     String user = scanner.next();
                     //TODO: implement Login
+                    app.loginCustomer = app.searchCustomer(user);
+                    if (app.loginCustomer != null) {
+                        app.customerMenu();
+                    } else {
+                        System.out.println("Customer tidak ditemukan");
+                    }
+                    break;
                 case 0:
                     System.out.println("Sampai Jumpa!");
                     break;
@@ -43,11 +53,11 @@ public class ShyourBox {
 
         } while (choice != 0);
         scanner.close();
-        
     }
 
     public void customerMenu(){
         Scanner scanner = new Scanner(System.in);
+        PrintGenericList<OrderItem> printOrderItems = new PrintGenericList<>(); // Untuk mencetak order items
         int choice;
         do {
             System.out.println("--------------Customer "+this.loginCustomer.getName()+ " Menu------------------" +
@@ -60,20 +70,25 @@ public class ShyourBox {
             choice = scanner.nextInt();
             switch(choice){
                 case 1:
-                    //TODO : implement lihat keranjang
-                    // use PrintGenericList for this feature
-                    break;
+                // Implementasi untuk lihat keranjang menggunakan PrintGenericList
+                if (loginCustomer.getCart() == null || loginCustomer.getOrderHistory() == null){
+                    System.out.println("Keranjang anda kosong");
+                }
+                else{
+                    System.out.println("Isi Keranjang:");
+                    printOrderItems.printToConsole(loginCustomer.getCart().getOrderList());
+                }
+                break;
                 case 2:
-                    //TODO : Implement add to cart
-                    
+                    // TODO : Implement add to cart
                     break;
                 case 3:
-                    //TODO: Implement Checkout
+                    // TODO: Implement Checkout
                     break;
                 case 4:
-                   //TODO: Implement Order History
-                   // use PrintGenericList for this feature
-
+                    // Implementasi untuk riwayat pembelian menggunakan PrintGenericList
+                    System.out.println("Riwayat Pembelian:");
+                    printOrderItems.printToConsole(loginCustomer.getOrderHistory());
                     break;
                 case 0:
                     System.err.println("Sampai Jumpa Kembali!");
@@ -115,16 +130,26 @@ public class ShyourBox {
      * @return
      */
     public Product searchProduct(String name) {
-        // TODO: Implement this method.
-
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(name)) {
+                return product;
+            }
+        }
+        System.out.println("Produk tidak ditemukan");
         return null;
     }
+    
 
     public Customer searchCustomer(String name) {
         // TODO: Implement this method.
-
+        for (Customer customer : customers) {
+            if(customer.getName().equalsIgnoreCase(name)){
+                return customer;
+            }
+        }
         return null;
     }
 
 }
+
 
