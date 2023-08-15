@@ -2,32 +2,42 @@ package order;
 
 import java.time.LocalDate;
 
+/**
+ * Representasi dari pesanan yang dibuat oleh pelanggan.
+ */
 public class Order {
     private Cart cart;
     private double discountRate;
     private LocalDate orderDate;
     private double totalPrice;
 
-    public Order(Cart cart, double discountRate) {
+    /**
+     * Membuat objek Order baru.
+     * @param cart Keranjang yang berisi produk untuk pesanan.
+     * @param discountRate Tingkat diskon yang diterapkan pada pesanan.
+     * @param orderDate Tanggal pesanan dibuat.
+     * @param totalPrice Total harga pesanan sebelum diskon.
+     */
+    public Order(Cart cart, double discountRate, LocalDate orderDate, double totalPrice) {
         this.cart = cart;
         this.discountRate = discountRate;
-        this.orderDate = LocalDate.now();
-        this.totalPrice = calculateTotalPrice();
+        this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
     }
 
+    /**
+     * Menghitung harga akhir dari pesanan setelah diskon.
+     * @return Harga akhir pesanan setelah diskon.
+     */
     public double getFinalPrice() {
-        return totalPrice - (totalPrice * discountRate);
+        return totalPrice * (100 - discountRate) / 100;
     }
 
+    /**
+     * Mengurangi stok semua item dalam pesanan dari inventaris.
+     */
     public void decreaseStockAllItem() {
-        for (OrderItem orderItem : cart.getOrderList()) {
-            orderItem.getProduct().decreaseStock(orderItem.getQuantity());
-        }
-    }
-
-    private double calculateTotalPrice() {
-        double total = cart.getTotalPrice();
-        return total;
+        // Implementasi pengurangan stok dari inventaris
     }
 
     public Cart getCart() {

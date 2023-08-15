@@ -1,38 +1,45 @@
 package order;
 
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Representasi dari keranjang belanja yang berisi daftar produk yang akan dibeli.
+ */
 public class Cart {
-    
-    private List<OrderItem> orderList;
+    private ArrayList<OrderItem> orderList;
 
+    /**
+     * Membuat objek Cart baru.
+     */
     public Cart() {
-        orderList = new ArrayList<>();
+        this.orderList = new ArrayList<>();
     }
 
+    /**
+     * Menghitung total harga dari semua produk dalam keranjang.
+     * @return Total harga dari semua produk dalam keranjang.
+     */
+    public double getTotalPrice() {
+        double totalPrice = 0;
+        for (OrderItem orderItem : orderList) {
+            totalPrice += orderItem.getFinalPrice();
+        }
+        return totalPrice;
+    }
+
+    /**
+     * Menambahkan produk ke dalam keranjang.
+     * @param orderItem Produk yang akan ditambahkan.
+     */
     public void addOrderItem(OrderItem orderItem) {
         orderList.add(orderItem);
     }
 
-    public double getTotalPrice() {
-        double total = 0;
-        for (OrderItem orderItem : orderList) {
-            total += orderItem.getProduct().getPrice() * orderItem.getQuantity();
-        }
-        return total;
-    }
-
-    public List<OrderItem> getOrderList() {
+    /**
+     * Mengambil daftar produk dalam keranjang.
+     * @return Daftar produk dalam keranjang.
+     */
+    public ArrayList<OrderItem> getOrderList() {
         return orderList;
-    }
-
-    public void setOrderList(List<OrderItem> orderList) {
-        this.orderList = orderList;
-    }
-    
-    @Override
-    public String toString() {
-        return "Cart [orderList=" + orderList + "]";
     }
 }
